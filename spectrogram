@@ -1,0 +1,44 @@
+import scipy.io
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+f = scipy.io.loadmat('HobbyKing_HKT6A/HobbyKing_HKT6A_0001.mat')
+f.keys()
+x = f['data']
+x = x['Data']
+x[0]
+x = np.array(x[0])
+x.shape
+x=x[0].transpose()
+t = np.array(range(0, len(x[0])))
+#x = x.astype(int)
+#y=x.transpose()
+plt.title("Plotting 1-D array")
+plt.xlabel("X axis")
+plt.ylabel("Y axis")
+plt.plot(t,x[0],label = "Time-series data")
+plt.legend()
+plt.show()
+
+s1 = np.empty([0]) # For samples
+sub1 = x[0]
+s1 = np.append(s1, sub1)
+NFFT = 256
+samplingFrequency = 20e9
+noverlap = 200
+dpi=1
+
+#plt.figure()
+plt.figure(figsize=(5,5))
+#powerSpectrum, freqenciesFound, time, imageAxis = plt.specgram(s1, NFFT=NFFT, Fs=samplingFrequency, noverlap=noverlap, cmap = plt.cm.bone)
+powerSpectrum, freqenciesFound, time, imageAxis = plt.specgram(s1, Fs=samplingFrequency,noverlap=noverlap)
+plt.pcolormesh(time,freqenciesFound,powerSpectrum )
+plt.xlabel('Time')
+plt.ylabel('Frequency')
+
+ax = plt.gca()
+ax.set_ylim([2e9, 3e9])
+plt.savefig('plot.png')
+plt.show() 
+
+ 
